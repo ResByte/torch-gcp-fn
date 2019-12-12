@@ -5,17 +5,18 @@ Deploy Image classification on GCP as cloud function.
 Cloud function has good response time and ability to scale. These can be configured accordingly using `requirements.txt`. 
 For more understanding, this [post](https://cloud.google.com/blog/products/ai-machine-learning/how-to-serve-deep-learning-models-using-tensorflow-2-0-with-cloud-functions) describes how TF is used for deploying classification model. 
 
-# App
+## App
 This app uses imagenet pre-trained model `resnet-18` available in `torchvision` to give image classification according to 1000 predefined categories in `imagenet_class_index.json`.
 
-# Setup1: local machine 
+## Setup
+### 1. local machine 
 - clone this repo
 - cd `$REPO;zip -r torch_gcp_fn.zip . ` 
 
 This will make a zip file of this repo. 
 
 
-# Setup2: Cloud Function
+### 2. Cloud Function
 
 - On GCP console, go to `Cloud Functions` and click `Create Function`.
 - Fill `name` as desired, add memory `2GB`, set Triger `HTTP`.
@@ -27,7 +28,7 @@ This will make a zip file of this repo.
 - click create
 
 
-# Response
+## Response
 - once the function is launched correctly, there will be green tick 
 - to start inference and testing, run following with updated values 
 
@@ -40,7 +41,8 @@ resp = requests.post(function_url, files={"file":open(file_path,'rb')})
 print(resp.json())
 ```
 
-
+## Note
+In the `requirements.txt`, to install pytorch full path to wheel is given, instead if only `torch` was written it would have given errors. Common error encountered was `code3, INVALID_ARGUMENT`.
 
 
 
