@@ -8,7 +8,8 @@ from torchvision import models,transforms
 from PIL import Image 
 import time
 from flask import jsonify
-
+import logging 
+logging.basicConfig(level=logging.INFO)
 
 # lazy global 
 device  = None
@@ -86,19 +87,19 @@ def handler(request):
     """
     global device, model, imagenet_class_index
     if device is None:
-        print("device created")
+        logging.info("device created")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu" )
     if model is None:
-        print("creating resnet50 model")
+        logging.info("creating resnet18 model")
         model = models.resnet18(pretrained=True)
         model.eval()
         model.to(device)
     if imagenet_class_index is None: 
-        print("loading imagenet class names ")
+        logging.info("loading imagenet class names ")
         imagenet_class_index = json.load(open('imagenet_class_index.json'))
 
     if request.method=='POST':
-        print("postrequest received")
+        logging.info("postrequest received")
         file = request.files['file']        
         img_bytes = file.read()
         class_id, class_name, prob = get_prediction(image_bytes=img_bytes)
